@@ -20,6 +20,7 @@ void enableRaw(){
     tcgetattr(STDIN_FILENO, &orig);
     struct termios raw=orig;
     raw.c_lflag &= ~(ECHO|ICANON);
+    raw.c_iflag &= ~(IXON | ICRNL);
     raw.c_cc[VMIN]=0;
     raw.c_cc[VTIME]=0;
     tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
@@ -76,6 +77,8 @@ void handleinput(char key, fish& fish, bool& running){
     }
 }
 int main(){
+    enableRaw();
+    hideCursor();
     fish fish;
     bool running=true;
     while(running){
@@ -85,5 +88,7 @@ int main(){
         draw(fish);
         sleepMs(100);
     }
+    showCursor();
+    disableRaw();
     return 0;
 }
