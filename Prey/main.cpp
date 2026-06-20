@@ -1,6 +1,7 @@
 #include <iostream>
 #include <termios.h>
 #include <unistd.h>
+#include<vector>
 using namespace std;
 void clearScreen(){
     cout<<"\033[H\033[J";
@@ -41,6 +42,24 @@ void draw(){
     }
     cout<<"+"<<string(width, '-')<<"+\n";
 }
+struct fish{
+    int x=width/2;
+    int y=height/2;
+    int health=100;
+    int max_health=100;
+    char symbol='>';
+};
+void draw(const fish& fish){
+    vector<string>grid(height, string(width, ' '));
+    grid[fish.y][fish.x]=fish.symbol;
+    clearScreen();
+    cout<<"+"<<string(width, '-')<<"+\n";
+    for(int i=0; i<height; i++){
+        cout<<"|"<<grid[i]<<"|\n";
+    }
+    cout<<"+"<<string(width, '-')<<"+\n";
+}
 int main(){
-    draw();
+    fish fish;
+    draw(fish);
 }
