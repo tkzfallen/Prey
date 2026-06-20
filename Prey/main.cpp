@@ -59,7 +59,31 @@ void draw(const fish& fish){
     }
     cout<<"+"<<string(width, '-')<<"+\n";
 }
+void handleinput(char key, fish& fish, bool& running){
+    int nx=fish.x;
+    int ny=fish.y;
+    if(key=='w') ny--;
+    else if(key=='s') ny++;
+    else if(key=='a') nx--;
+    else if(key=='d') nx++;
+    else if(key=='q') {
+        running=false;
+        return;
+    }
+    if(nx>=0 && nx<width && ny>=0 && ny<height){
+        fish.x=nx;
+        fish.y=ny;
+    }
+}
 int main(){
     fish fish;
-    draw(fish);
+    bool running=true;
+    while(running){
+        char key=getKey();
+        if(key!=0)
+        handleinput(key, fish, running);
+        draw(fish);
+        sleepMs(100);
+    }
+    return 0;
 }
